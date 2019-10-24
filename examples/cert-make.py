@@ -1,4 +1,3 @@
-#!/usr/bin/env vpython3
 # *-* coding: utf-8 *-*
 import datetime
 import os
@@ -42,12 +41,14 @@ class Main(object):
                 f.write(key.private_bytes(
                     encoding=serialization.Encoding.PEM,
                     format=serialization.PrivateFormat.TraditionalOpenSSL,
-                    encryption_algorithm=serialization.BestAvailableEncryption(password.encode('utf-8')),
+                    encryption_algorithm=serialization.BestAvailableEncryption(
+                        password.encode('utf-8')),
                 ))
 
     def key_load(self, fname, password):
         with open(fname, "rb") as f:
-            private_key = serialization.load_pem_private_key(f.read(), password.encode('utf-8'), default_backend())
+            private_key = serialization.load_pem_private_key(
+                f.read(), password.encode('utf-8'), default_backend())
             return private_key
 
     def cert_load(self, fname):
@@ -96,7 +97,8 @@ class Main(object):
             extension=x509.BasicConstraints(ca=False, path_length=None),
             critical=True
         ).add_extension(
-            extension=x509.AuthorityKeyIdentifier.from_issuer_public_key(self.ca_pk.public_key()),
+            extension=x509.AuthorityKeyIdentifier.from_issuer_public_key(
+                self.ca_pk.public_key()),
             critical=False
         ).sign(
             private_key=self.ca_pk,
@@ -108,7 +110,8 @@ class Main(object):
         pkcs12 = crypto.PKCS12()
         pkcs12.set_certificate(crypto.X509.from_cryptography(cert))
         pkcs12.set_privatekey(crypto.PKey.from_cryptography_key(key))
-        pkcs12.set_ca_certificates((crypto.X509.from_cryptography(self.ca_cert),))
+        pkcs12.set_ca_certificates(
+            (crypto.X509.from_cryptography(self.ca_cert),))
         pkcs12.set_friendlyname(name)
         return pkcs12
 
@@ -167,7 +170,8 @@ class Main(object):
             client_pk = self.key_create()
             client_csr = self.csr_create('USER %d' % no, client_pk)
             client_cert = self.csr_sign(client_csr)
-            client_p12 = self.pk12_create('USER cert'.encode('utf-8'), client_cert, client_pk)
+            client_p12 = self.pk12_create(
+                'USER cert'.encode('utf-8'), client_cert, client_pk)
 
             self.pem_save(cert, client_cert)
             self.key_save(cert_key, client_pk, '1234')

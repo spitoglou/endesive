@@ -1,4 +1,3 @@
-#!/usr/bin/env vpython3
 # *-* coding: utf-8 *-*
 from endesive import pdf
 

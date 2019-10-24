@@ -110,3 +110,9 @@ examples/*.txt
 examples/*.pdf
 examples/*.xml
 .idea/
+StavrosPitoglou.p12
+.vscode/
+*.pem
+*.p12
+
+

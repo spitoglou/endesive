@@ -1,4 +1,3 @@
-#!/usr/bin/env vpython3
 # *-* coding: utf-8 *-*
 import binascii
 from OpenSSL.crypto import load_pkcs12
@@ -13,8 +12,10 @@ def cert2asn(cert):
         _, _, cert_bytes = pem.unarmor(cert_bytes)
     return x509.Certificate.load(cert_bytes)
 
+
 def main():
-    p12 = load_pkcs12(open('demo2_user1.p12', 'rb').read(), '1234')
+    # p12 = load_pkcs12(open('demo2_user1.p12', 'rb').read(), '1234')
+    p12 = load_pkcs12(open('StavrosPitoglou.p12', 'rb').read(), 'stavros')
     signature = p12.get_privatekey().to_cryptography_key().sign(
         b"message",
         padding.PKCS1v15(),
@@ -23,4 +24,6 @@ def main():
     cert = cert2asn(p12.get_certificate().to_cryptography())
     print('issuer', cert.issuer.native)
     print('subject', cert.subject.native)
+
+
 main()

@@ -1,11 +1,11 @@
-#!/usr/bin/env vpython3
 # *-* coding: utf-8 *-*
 import sys
 from OpenSSL.crypto import load_pkcs12
 from endesive import pdf
 
 #import logging
-#logging.basicConfig(level=logging.DEBUG)
+# logging.basicConfig(level=logging.DEBUG)
+
 
 def main():
     dct = {
@@ -19,15 +19,15 @@ def main():
     }
     p12 = load_pkcs12(open('demo2_user1.p12', 'rb').read(), '1234')
     fname = 'pdf.pdf'
-    if len (sys.argv) > 1:
+    if len(sys.argv) > 1:
         fname = sys.argv[1]
     datau = open(fname, 'rb').read()
     datas = pdf.cms.sign(datau, dct,
-        p12.get_privatekey().to_cryptography_key(),
-        p12.get_certificate().to_cryptography(),
-        [],
-        'sha256'
-    )
+                         p12.get_privatekey().to_cryptography_key(),
+                         p12.get_certificate().to_cryptography(),
+                         [],
+                         'sha256'
+                         )
     fname = fname.replace('.pdf', '-signed-cms.pdf')
     with open(fname, 'wb') as fp:
         fp.write(datau)
