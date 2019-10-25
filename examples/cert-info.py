@@ -16,11 +16,11 @@ def cert2asn(cert):
 def main():
     # p12 = load_pkcs12(open('demo2_user1.p12', 'rb').read(), '1234')
     p12 = load_pkcs12(open('StavrosPitoglou.p12', 'rb').read(), 'stavros')
-    signature = p12.get_privatekey().to_cryptography_key().sign(
-        b"message",
-        padding.PKCS1v15(),
-        hashes.SHA1()
-    )
+    # signature = p12.get_privatekey().to_cryptography_key().sign(
+    #     b"message",
+    #     padding.PKCS1v15(),
+    #     hashes.SHA1()
+    # )
     cert = cert2asn(p12.get_certificate().to_cryptography())
     print('issuer', cert.issuer.native)
     print('subject', cert.subject.native)
